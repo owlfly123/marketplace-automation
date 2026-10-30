@@ -67,14 +67,14 @@ def main():
                     "Итого заказов, шт": orders,
                     "Остатки склад ВБ, шт": random.randint(0, 3) * base[(sku, region)],
                 })
-        name = f"Отчет продаж {start:%d.%m}-{end:%d.%m.%Y}.xlsx"
+        name = f"sales_report_{start:%d.%m}-{end:%d.%m.%Y}.xlsx"
         with pd.ExcelWriter(OUT / name) as xw:
             pd.DataFrame({"Отчёт": ["Демо-данные"]}).to_excel(xw, sheet_name="Сводка", index=False)
             pd.DataFrame(rows).to_excel(xw, sheet_name="Детальные данные", index=False)
 
     # Файл «В пути»: листы названы по-разному, Уральского листа нет вовсе
     sheets = {"Yuzhny": "Южный", "Privolzhsky": "Privolzhsky", "Severo-Zapadny": "Северо-Западный"}
-    with pd.ExcelWriter(OUT / f"В пути {week_start + timedelta(weeks=4):%d.%m}.xlsx") as xw:
+    with pd.ExcelWriter(OUT / f"in_way_{week_start + timedelta(weeks=4):%d.%m}.xlsx") as xw:
         for code, sheet in sheets.items():
             picked = random.sample(skus, 6)
             pd.DataFrame({
